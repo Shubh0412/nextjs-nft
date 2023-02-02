@@ -14,17 +14,17 @@ const Home = ({ collections }: Props) => {
     <div className="bg-black">
       <div
         className="mx-auto max-w-7xl flex-col flex min-h-screen
-    py-20 px-10 2xl:px-0"
+    py-20 px-10 2xl:px-0 text-slate-200 text-ellipsis font-mono"
       >
         <Head>
           <title>NFT Drop</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <h1
-          className="w-52 cursor-pointer text-xl font-extralight
-          sm:w-80 "
+          className="w-52 text-xl font-extralight
+          sm:w-80 animate-pulse"
         >
-          NFT Marketplace
+          You&apos;ve come to the right place to buy some cool NFTs
         </h1>
 
         <main>
