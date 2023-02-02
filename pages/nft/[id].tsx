@@ -11,6 +11,7 @@ import { Collection } from '../../typings'
 import Link from 'next/link'
 import { BigNumber } from 'ethers'
 import toast, { Toaster } from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 interface Props {
   collection: Collection
@@ -118,7 +119,7 @@ function NFTDropPage({ collection }: Props) {
       <Toaster position="bottom-center" />
       {/* Left */}
       <div
-        className="lg:col-span-4 bg-gradient-to-br from-cyan-800
+        className="lg:col-span-4 bg-gradient-to-br from-cyan-500
        to-rose-500"
       >
         <div
@@ -129,11 +130,28 @@ function NFTDropPage({ collection }: Props) {
             className="bg-gradient-to-br from-yellow-400
            to-purple-600 p-2 rounded-xl"
           >
-            <img
-              className="w-44 rounded-xl object-cover lg:h-96 lg:w-72"
-              src={urlFor(collection.previewImage).url()}
-              alt=""
-            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                default: {
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01]
+                },
+                scale: {
+                  type: 'spring',
+                  damping: 5,
+                  stiffness: 100,
+                  restDelta: 0.001
+                }
+              }}
+            >
+              <img
+                className="w-44 rounded-xl object-cover lg:h-96 lg:w-72"
+                src={urlFor(collection.previewImage).url()}
+                alt=""
+              />
+            </motion.div>
           </div>
           <div className="p-5 text-center space-y-2">
             <h1 className="text-4xl font-bold text-white">
@@ -145,25 +163,38 @@ function NFTDropPage({ collection }: Props) {
       </div>
 
       {/*Right */}
-      <div className="flex flex-1 flex-col p-12 lg:col-span-6">
+      <div
+        className="flex flex-1 flex-col p-12 lg:col-span-6 
+        bg-gradient-to-b from-teal-900 to-black"
+      >
         {/*Header */}
         <header className="flex items-center justify-between">
           <Link href={'/'}>
             <h1
               className="w-52 cursor-pointer text-xl font-extralight
-          sm:w-80 "
+          sm:w-80 text-white "
             >
               NFT Marketplace
             </h1>
           </Link>
 
-          <button
-            onClick={() => (address ? disconnect() : connectWithMetamask())}
-            className="rounded-full bg-rose-400 text-white px-4 py-2
-          text-xs font-bold lg:px-5 lg:py-3 lg:text-base"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 2,
+              delay: 1,
+              ease: [0, 0.71, 0.2, 1.01]
+            }}
           >
-            {address ? 'Sign Out' : 'Sign In'}
-          </button>
+            <button
+              onClick={() => (address ? disconnect() : connectWithMetamask())}
+              className="rounded-full bg-rose-400 text-white px-4 py-2
+          text-xs font-bold lg:px-5 lg:py-3 lg:text-base"
+            >
+              {address ? 'Sign Out' : 'Sign In'}
+            </button>
+          </motion.div>
         </header>
         <hr className="my-2 border" />
         {address && (
@@ -183,7 +214,10 @@ function NFTDropPage({ collection }: Props) {
             src={urlFor(collection.mainImage).url()}
             alt=""
           />
-          <h1 className="text-3xl font-bold lg:text-5xl lg:font-extrabold">
+          <h1
+            className="text-3xl font-bold lg:text-5xl lg:font-extrabold
+          text-zinc-50 font-serif"
+          >
             {collection.title}
           </h1>
 
@@ -198,32 +232,42 @@ function NFTDropPage({ collection }: Props) {
           )}
           {loading && (
             <img
-              className="h-64 w-80 object-contain"
-              src="https://cdn.hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif"
+              className="h-40 w-60 object-contain pt-16"
+              src="/loading-2.gif"
               alt=""
             />
           )}
         </div>
 
         {/* Button */}
-        <button
-          onClick={mintNft}
-          disabled={
-            loading || claimedSupply === totalSupply?.toNumber() || !address
-          }
-          className="h-16 bg-red-500 w-full text-white
-        rounded-full mt-10 font-bold disabled:bg-gray-400"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            delay: 1.5,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
         >
-          {loading ? (
-            <>Loading</>
-          ) : claimedSupply === totalSupply?.toNumber() ? (
-            <>SOLD OUT</>
-          ) : !address ? (
-            <>Sign in to Mint</>
-          ) : (
-            <span>Mint NFT ({priceInEth} ETH)</span>
-          )}
-        </button>
+          <button
+            onClick={mintNft}
+            disabled={
+              loading || claimedSupply === totalSupply?.toNumber() || !address
+            }
+            className="h-16 bg-red-500 w-full text-white
+        rounded-full mt-10 font-bold disabled:bg-gray-400"
+          >
+            {loading ? (
+              <>Loading</>
+            ) : claimedSupply === totalSupply?.toNumber() ? (
+              <>SOLD OUT</>
+            ) : !address ? (
+              <>Sign in to Mint</>
+            ) : (
+              <span>Mint NFT ({priceInEth} ETH)</span>
+            )}
+          </button>
+        </motion.div>
       </div>
     </div>
   )
